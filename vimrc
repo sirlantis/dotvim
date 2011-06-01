@@ -1,9 +1,10 @@
-let moria_style = 'white'
-colorscheme moria
+colorscheme default
+
 syntax on             " Enable syntax highlighting
 filetype on           " Enable filetype detection
 filetype indent on    " Enable filetype-specific indenting
-filetype plugin on    " Enable filetype-specific plugins 
+filetype plugin on    " Enable filetype-specific plugins
+
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -74,3 +75,22 @@ set statusline+=%l/%L   "cursor line/total lines
 set statusline+=\ %P    "percent through file"
 set statusline+=\ %{fugitive#statusline()}
 
+set ignorecase
+set smartcase
+set mouse=a
+set number
+set backspace=indent,eol,start
+
+" auto-launch nerdtree
+" autocmd VimEnter * NERDTree
+" autocmd BufEnter * NERDTreeMirror
+
+" Remove trailing white-spaces on save
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+
+autocmd FileType css,ruby,haml,php,coffee,javascript autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
